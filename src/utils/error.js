@@ -1,15 +1,18 @@
-const formatError = (error, message) => {
-  if (error) {
-    if (typeof error === 'string') {
-      return error;
-    } else if(error.error && typeof error.error === 'string') {
-      return error.error;
-    } else if (error.detail && typeof error.detail === 'string') {
-      return error.detail;
+class AppError extends Error {
+  constructor(error = "Internal Server Error", statusCode) {
+    if (error instanceof Error) {
+      error = AppError.formatError(error);
     }
+
+    super(error);
+
+    this.statusCode = statusCode;
   }
 
-  return { message };
+  static formatError(error) {
+    const { message } = error || { message: "Internal Server Error" };
+    return message;
+  }
 }
 
-module.exports = formatError;
+module.exports = AppError;

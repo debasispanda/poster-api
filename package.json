@@ -4,7 +4,7 @@
   "description": "Backend API for Poster",
   "main": "index.js",
   "scripts": {
-    "configure": "node scripts/configure.js",
+    "setup": "node scripts/configure.js",
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js"
   },
@@ -24,8 +24,11 @@
   },
   "homepage": "https://github.com/debasispanda/poster-api#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "connect-pg-simple": "^6.2.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "pg": "^8.5.1"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-const pool = require("../utils/pool");
+const pool = require("../utils/pool")();
 const TABLE_NAME = 'users';
 
 const create_table = () => {
@@ -8,18 +8,21 @@ const create_table = () => {
       email VARCHAR(255) NOT NULL UNIQUE,
       firstname VARCHAR(255) NOT NULL,
       lastname VARCHAR(255) NOT NULL,
-      password VARCHAR(255) NOT NULL
+      password VARCHAR(255) NOT NULL,
+      created_at timestamp default current_timestamp
     );
   `;
   return pool.query(auth_table);
 };
 
-const get_users = (id) => {
-  let select_users = `SELECT * FROM ${TABLE_NAME}`;
-  if (id) {
-    select_users = `${select_users} WHERE id = ${id}`
-  }
-  return pool.query(select_users);
+const get_users = () => {
+  const users = `SELECT * FROM ${TABLE_NAME}`;
+  return pool.query(users);
+};
+
+const get_user_by_key_value = (field_name, field_value) => {
+  const user = `SELECT * FROM ${TABLE_NAME} WHERE ${field_name} = $1`;
+  return pool.query(user, [field_value]).then(data => data.rows[0]);
 };
 
 const save_user = (email, firstname, lastname, password) => {
@@ -33,4 +36,4 @@ const delete_user = (id) => {
   return pool.query(delete_user);
 };
 
-module.exports = { create_table, get_users, save_user, delete_user };
+module.exports = { create_table, get_users, get_user_by_key_value, save_user, delete_user };
