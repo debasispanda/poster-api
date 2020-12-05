@@ -1,9 +1,10 @@
-const { User, Session } = require("../src/db");
+const { User, Session, Role } = require("../src/db");
 
 const create_tables = () => {
   return Promise.all([
+    Session.create_table(),
     User.create_table(),
-    Session.create_table()
+    Role.create_table()
   ]);
 };
 

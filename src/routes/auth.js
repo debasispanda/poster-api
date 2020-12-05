@@ -1,41 +1,52 @@
+const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const { User } = require("../db");
+const {
+  BadRequestError,
+  AuthError,
+  NotFoundError,
+  ServerError,
+} = require("../utils/error");
+const { Response } = require("../utils/response");
 
-module.exports = (route) => {
-  /**
-   * Login user using email and password
-   */
-  route.post("/login", async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await User.get_user_by_key_value("email", email);
+const route = Router();
 
-      if (!user) {
-        res.send("User doesn't exist");
-      }
+/**
+ * Login user using email and password
+ */
+route.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-      if (bcrypt.compareSync(password, user.password)) {
-        req.session.userId = user.id;
-        res.send("Authentication Successful!");
-      } else {
-        res.send("Invalid username/password");
-      }
-    } catch (e) {
-      console.error(e);
-      res.send("Authentication Failed!");
+    if (!(email && password)) {
+      next(new BadRequestError());
     }
-  });
 
-  route.post("/logout", async (req, res) => {
-    try {
-      res.clearCookie("PosterSession");
-      req.session.destroy();
-      res.send("Successfully logged out!");
-    } catch (e) {
-      console.error(e);
-      res.send("Logout Failed!");
+    const user = await User.get_by_key_value("email", email);
+
+    if (!user) {
+      next(new NotFoundError("User not found!"));
     }
-  });
 
-  return route;
-};
+    if (bcrypt.compareSync(password, user.password)) {
+      req.session.userId = user.id;
+      res.json(new Response(null, "Authentication Successful!"));
+    } else {
+      next(new AuthError("Invalid username/password!"));
+    }
+  } catch (error) {
+    next(new ServerError(error));
+  }
+});
+
+route.post("/logout", async (req, res, next) => {
+  try {
+    res.clearCookie("PosterSession");
+    req.session.destroy();
+    res.json(new Response(null, "Successfully logged out!"));
+  } catch (error) {
+    next(new ServerError(error));
+  }
+});
+
+module.exports = route;

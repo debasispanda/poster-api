@@ -4,9 +4,11 @@
   "description": "Backend API for Poster",
   "main": "index.js",
   "scripts": {
-    "setup": "node scripts/configure.js",
+    "setup": "node scripts/setup.js",
     "start": "node src/app.js",
-    "start:dev": "nodemon src/app.js"
+    "start:dev": "nodemon src/app.js",
+    "format": "prettier --list-different ./src/**/*.js",
+    "format:fix": "prettier --write ./src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,7 @@
     "pg": "^8.5.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
   }
 }

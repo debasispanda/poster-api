@@ -1,12 +1,11 @@
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
-const { Auth, User } = require('./routes');
-const { ErrorHandler } = require('./middlewares');
+const { Auth, User, Role } = require('./routes');
+const { ErrorHandler, CurrentUser } = require('./middlewares');
 require('dotenv/config');
 
 const app = express();
-const router = express.Router();
 
 app.use(express.json());
 
@@ -26,9 +25,12 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * SESSION_AGE }
 }));
 
+app.use(CurrentUser);
+
 // Routes
-app.use('/api/auth', Auth(router));
-app.use('/api/users', User(router));
+app.use('/api/auth', Auth);
+app.use('/api/roles', Role);
+app.use('/api/users', User);
 
 // Error Handler
 app.use(ErrorHandler);

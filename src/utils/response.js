@@ -1,12 +1,24 @@
 class Response {
-  constructor(data, message = '') {
+  constructor(data, message = "") {
     this.data = data;
     this.message = message;
+
+    return this.toJSON();
   }
 
   toJSON() {
-    return { data: this.data, message: this.message };
+    let response = {};
+
+    if (this.data) {
+      response.data = this.data;
+    }
+
+    if (this.message) {
+      response.message = this.message;
+    }
+
+    return response;
   }
 }
 
-module.exports = Response;
+module.exports = { Response };

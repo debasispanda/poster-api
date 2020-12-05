@@ -1,1 +1,5 @@
-module.exports = { Auth: require('./authentication'), ErrorHandler: require('./errorHandler') };
+module.exports = {
+  AuthHandler: require("./authHandler"),
+  ErrorHandler: require("./errorHandler"),
+  CurrentUser: require("./currentUser"),
+};
