@@ -1,4 +1,4 @@
-const pool = require("../utils/pool")();
+const pool = require("../utils/pool");
 
 const update_timestamp = () => {
   const query = `

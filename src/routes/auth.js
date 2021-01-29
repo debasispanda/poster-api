@@ -41,7 +41,7 @@ route.post("/login", async (req, res, next) => {
 
 route.post("/logout", async (req, res, next) => {
   try {
-    res.clearCookie("PosterSession");
+    res.clearCookie(process.env.SESSION_NAME);
     req.session.destroy();
     res.json(new Response(null, "Successfully logged out!"));
   } catch (error) {

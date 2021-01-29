@@ -1,4 +1,4 @@
-const pool = require("../utils/pool")();
+const pool = require("../utils/pool");
 const TABLE_NAME = "session";
 
 const create_table = () => {
