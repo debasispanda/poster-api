@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const pool = require("../utils/pool")();
+const pool = require("../utils/pool");
 const TABLE_NAME = "users";
 
 const create_table = () => {

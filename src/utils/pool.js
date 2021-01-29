@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
-module.exports = (database = process.env.PGDATABASE) => {
-  return new Pool({
-    database,
-  });
-};
+// All parameters are used from the environment variable
+// Check your .env file for more details.
+module.exports = new Pool({
+    connectionString: process.env.DB_URL
+});

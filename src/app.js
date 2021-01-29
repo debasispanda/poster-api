@@ -3,7 +3,7 @@ const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const { Auth, User, Role } = require('./routes');
 const { ErrorHandler, CurrentUser } = require('./middlewares');
-require('dotenv/config');
+const pool = require('./utils/pool');
 
 const app = express();
 
@@ -18,7 +18,9 @@ const {
 // Session
 app.use(session({
   name: SESSION_NAME,
-  store: new pgSession(),
+  store: new pgSession({
+    pool
+  }),
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
@@ -35,8 +37,8 @@ app.use('/api/users', User);
 // Error Handler
 app.use(ErrorHandler);
 
-const PORT = process.env.PORT || 3000;
+const APP_PORT = process.env.APP_PORT || 3000;
 
-app.listen(PORT, async () => {
-  console.log(`Connected to port ${PORT}`);
+app.listen(APP_PORT, async () => {
+  console.log(`Connected to port ${APP_PORT}`);
 });

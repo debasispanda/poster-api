@@ -4,11 +4,17 @@
   "description": "Backend API for Poster",
   "main": "index.js",
   "scripts": {
-    "setup": "node scripts/setup.js",
+    "init:db": "node scripts/setup.js",
+    "init:db:dev": "node -r dotenv/config scripts/setup.js",
     "start": "node src/app.js",
-    "start:dev": "nodemon src/app.js",
+    "start:dev": "nodemon -r dotenv/config src/app.js",
+    "start:prod": "npm run init:db && npm run start",
     "format": "prettier --list-different ./src/**/*.js",
-    "format:fix": "prettier --write ./src/**/*.js"
+    "format:fix": "prettier --write ./src/**/*.js",
+    "generate-config": "sh ./scripts/config.sh",
+    "docker:build": "docker build -t poster_api .",
+    "docker:start": "sh ./scripts/start.sh",
+    "docker:clean": "sh ./scripts/remove.sh"
   },
   "repository": {
     "type": "git",
