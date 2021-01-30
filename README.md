@@ -19,12 +19,22 @@ npm install
 npm run generate-config
 ```
 
-### 4. Build Docker Image
+### 4. Run application is development environment
+```
+// Run containers
+docker-compose up
+
+// Clean containers
+docker-compose down
+```
+## Other commands useful for production environment
+
+### Build Docker Image
 ```
 npm run docker:build
 ```
 
-### 5. Start Containers
+### Start Containers
 ```
 npm run docker:start
 ```
@@ -32,7 +42,7 @@ This will run both postgres and app container. You can use postman client to acc
 
 On startup it will create the required tables and insert default data like default roles and users. 
 
-### 6. Clean Containers
+### Clean Containers
 You can clean the containers by using following commands.
 ```
 npm run docker:clean

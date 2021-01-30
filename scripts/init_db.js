@@ -1,7 +1,7 @@
 const { Functions, User, Role } = require('../src/db');
 const create_tables = require('./create_tables');
 
-(async () => {
+const initDB = async () => {
   try {
     await Functions.update_timestamp();
     await create_tables();
@@ -9,6 +9,7 @@ const create_tables = require('./create_tables');
     await User.create_default();
   } catch (error) {
     console.error(error);
-    process.exit(1);
   }
-})();
+}
+
+module.exports = initDB;
